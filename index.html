@@ -191,9 +191,7 @@
     /* Europe + Asia live clock rails framing the U.S. dashboard */
     .world-layout { width:min(1900px,calc(100% - 20px)); margin:0 auto; display:grid; grid-template-columns:minmax(200px,1fr) minmax(700px,850px) minmax(200px,1fr); gap:14px; align-items:start; }
     .world-layout > .shell { width:100%; max-width:850px; min-width:0; }
-    .world-rail { position:sticky; top:12px; height:min(850px,calc(100vh - 24px)); min-height:620px; min-width:0; overflow:auto; padding:15px 14px; border:1px solid rgba(110,151,196,.2); border-radius:18px; background:linear-gradient(155deg,rgba(15,29,49,.96),rgba(8,18,32,.96)); box-shadow:0 18px 50px rgba(0,0,0,.2); scrollbar-width:thin; scrollbar-color:rgba(119,157,202,.32) transparent; }
-    .world-rail::-webkit-scrollbar { width:5px; }
-    .world-rail::-webkit-scrollbar-thumb { background:rgba(119,157,202,.32); border-radius:99px; }
+    .world-rail { position:static; height:auto; min-height:0; max-height:none; min-width:0; overflow:visible; padding:15px 14px; border:1px solid rgba(110,151,196,.2); border-radius:18px; background:linear-gradient(155deg,rgba(15,29,49,.96),rgba(8,18,32,.96)); box-shadow:0 18px 50px rgba(0,0,0,.2); }
     .world-rail-head { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:2px 2px 10px; border-bottom:1px solid rgba(155,177,212,.12); }
     .world-rail-kicker { color:var(--cyan); font-size:9px; font-weight:850; letter-spacing:.2em; margin:0 0 5px; }
     .world-rail-head h2 { margin:0; font-size:17px; }
@@ -224,7 +222,7 @@
     @media(max-width:1279px) {
       .world-layout { width:min(1180px,calc(100% - 28px)); grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
       .world-layout > .shell { grid-column:1/-1; grid-row:1; width:100%; max-width:1180px; }
-      .world-rail { position:static; height:auto; min-height:0; max-height:none; }
+      .world-rail { position:static; height:auto; min-height:0; max-height:none; overflow:visible; }
       .world-rail.europe-rail { grid-column:1; grid-row:2; }
       .world-rail.asia-rail { grid-column:2; grid-row:2; }
       .world-city-list { grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; }
@@ -296,6 +294,27 @@
       </section>
 
 
+      <section aria-labelledby="zonesTitle">
+        <div class="section-head">
+          <div>
+            <h2 id="zonesTitle">美国主要时区详情</h2>
+            <p class="section-sub">共 9 个法定时区 · 时间和日期根据浏览器时区数据库自动计算</p>
+          </div>
+          <div class="section-sub" id="lastUpdated">更新中…</div>
+        </div>
+        <div class="controls">
+          <div class="filters" role="group" aria-label="时区筛选">
+            <button class="filter-btn active" data-filter="all">全部时区（9）</button>
+            <button class="filter-btn" data-filter="states">美国本土（4）</button>
+            <button class="filter-btn" data-filter="remote">阿拉斯加 / 夏威夷（2）</button>
+            <button class="filter-btn" data-filter="territory">海外属地（3）</button>
+          </div>
+          <label class="search"><input id="searchInput" type="search" placeholder="搜索城市、时区或缩写…" aria-label="搜索城市、时区或缩写"></label>
+        </div>
+        <div class="grid" id="zoneGrid" aria-live="polite"></div>
+        <div class="empty" id="emptyState">没有找到匹配的时区，请尝试其他关键词。</div>
+      </section>
+
       <section aria-labelledby="mapTitle" class="map-section">
         <div class="section-head">
           <div>
@@ -344,27 +363,6 @@
           <div class="time-axis"><div>时区 / 代表城市</div><div class="axis-labels"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div><div style="text-align:right">当地时间</div></div>
           <div id="timelineRows"></div>
         </div>
-      </section>
-
-      <section aria-labelledby="zonesTitle">
-        <div class="section-head">
-          <div>
-            <h2 id="zonesTitle">美国主要时区详情</h2>
-            <p class="section-sub">共 9 个法定时区 · 时间和日期根据浏览器时区数据库自动计算</p>
-          </div>
-          <div class="section-sub" id="lastUpdated">更新中…</div>
-        </div>
-        <div class="controls">
-          <div class="filters" role="group" aria-label="时区筛选">
-            <button class="filter-btn active" data-filter="all">全部时区（9）</button>
-            <button class="filter-btn" data-filter="states">美国本土（4）</button>
-            <button class="filter-btn" data-filter="remote">阿拉斯加 / 夏威夷（2）</button>
-            <button class="filter-btn" data-filter="territory">海外属地（3）</button>
-          </div>
-          <label class="search"><input id="searchInput" type="search" placeholder="搜索城市、时区或缩写…" aria-label="搜索城市、时区或缩写"></label>
-        </div>
-        <div class="grid" id="zoneGrid" aria-live="polite"></div>
-        <div class="empty" id="emptyState">没有找到匹配的时区，请尝试其他关键词。</div>
       </section>
 
       <section class="note-grid" aria-label="时区提示">

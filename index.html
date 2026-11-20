@@ -186,10 +186,69 @@
     @media(max-width:900px) { .map-layout { grid-template-columns:1fr; } .state-detail { display:grid; grid-template-columns:1fr 1fr; column-gap:20px; } .detail-kicker,.detail-state-row,.state-detail h3,.detail-city,.state-clock,.state-date,.state-meta-grid,.iana-line,.secondary-title,.secondary-zones,.state-note,.state-select-label,#stateSelect { grid-column:1/-1; } .state-clock { font-size:42px; } }
     @media(max-width:650px) { .map-section { margin-top:26px; } .map-layout { gap:11px; } .map-canvas { padding:5px 3px 9px; } .map-hint { font-size:9px; padding:0 8px 4px; } .map-legend { gap:9px 12px; font-size:10px; } .state-detail { display:block; padding:17px; } .state-clock { font-size:40px; } .state-detail h3 { font-size:19px; } }
 
+
+
+    /* Europe + Asia live clock rails framing the U.S. dashboard */
+    .world-layout { width:min(1900px,calc(100% - 20px)); margin:0 auto; display:grid; grid-template-columns:minmax(200px,1fr) minmax(700px,850px) minmax(200px,1fr); gap:14px; align-items:start; }
+    .world-layout > .shell { width:100%; max-width:850px; min-width:0; }
+    .world-rail { position:sticky; top:12px; height:min(850px,calc(100vh - 24px)); min-height:620px; min-width:0; overflow:auto; padding:15px 14px; border:1px solid rgba(110,151,196,.2); border-radius:18px; background:linear-gradient(155deg,rgba(15,29,49,.96),rgba(8,18,32,.96)); box-shadow:0 18px 50px rgba(0,0,0,.2); scrollbar-width:thin; scrollbar-color:rgba(119,157,202,.32) transparent; }
+    .world-rail::-webkit-scrollbar { width:5px; }
+    .world-rail::-webkit-scrollbar-thumb { background:rgba(119,157,202,.32); border-radius:99px; }
+    .world-rail-head { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:2px 2px 10px; border-bottom:1px solid rgba(155,177,212,.12); }
+    .world-rail-kicker { color:var(--cyan); font-size:9px; font-weight:850; letter-spacing:.2em; margin:0 0 5px; }
+    .world-rail-head h2 { margin:0; font-size:17px; }
+    .world-rail-sub { margin:5px 0 0; color:#8498b5; font-size:10px; line-height:1.5; }
+    .world-rail-badge { flex:0 0 auto; display:grid; place-items:center; width:34px; height:34px; border-radius:11px; color:#071523; font-size:12px; font-weight:900; background:linear-gradient(135deg,#a4d7ff,#69d7d0); }
+    .world-city-list { display:grid; gap:6px; padding-top:10px; }
+    .world-clock-card { padding:6px 9px 5px; border:1px solid rgba(155,177,212,.12); border-radius:12px; background:linear-gradient(145deg,rgba(27,45,71,.62),rgba(13,24,41,.7)); }
+    .world-clock-card-head { display:flex; align-items:center; justify-content:space-between; gap:7px; }
+    .world-city-label { display:flex; align-items:baseline; gap:5px; min-width:0; white-space:nowrap; overflow:hidden; }
+    .world-city-name { color:#e4edfa; font-size:11px; font-weight:750; line-height:1.2; flex:0 0 auto; }
+    .world-city-en { min-width:0; overflow:hidden; text-overflow:ellipsis; color:#7187a5; font-size:8px; line-height:1.2; }
+    .world-city-zone { flex:0 0 auto; border:1px solid rgba(126,183,232,.18); border-radius:7px; padding:3px 5px; color:#a9c9e9; background:rgba(90,145,199,.08); font-size:8px; line-height:1; font-weight:750; white-space:nowrap; }
+    .world-clock-time { margin-top:4px; color:#f0f6ff; font-size:20px; font-weight:780; line-height:1; letter-spacing:-.04em; font-variant-numeric:tabular-nums; }
+    .world-clock-card-foot { display:flex; align-items:center; justify-content:space-between; gap:6px; margin-top:3px; color:#8094b1; font-size:7px; line-height:1; font-variant-numeric:tabular-nums; }
+    .world-rail-note { margin:12px 2px 0; color:#7489a7; font-size:9px; line-height:1.65; }
+    .world-rail-note strong { color:#a5b8d2; font-weight:650; }
+    @media(min-width:1280px) { .world-rail-note { display:none; } }
+    @media(max-width:1279px) {
+      .world-layout { width:min(1180px,calc(100% - 28px)); grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+      .world-layout > .shell { grid-column:1/-1; grid-row:1; width:100%; max-width:1180px; }
+      .world-rail { position:static; height:auto; min-height:0; max-height:none; }
+      .world-rail.europe-rail { grid-column:1; grid-row:2; }
+      .world-rail.asia-rail { grid-column:2; grid-row:2; }
+      .world-city-list { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    }
+    @media(max-width:650px) {
+      .world-layout { display:flex; flex-direction:column; width:calc(100% - 20px); gap:12px; }
+      .world-layout > .shell { order:0; width:100%; }
+      .world-rail { width:100%; padding:14px 12px; }
+      .world-rail.europe-rail { order:1; }
+      .world-rail.asia-rail { order:2; }
+      .world-city-list { grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; }
+      .world-clock-card { padding:9px 9px 8px; }
+      .world-city-name { font-size:11px; }
+      .world-clock-time { font-size:21px; }
+      .world-clock-card-foot { font-size:8px; }
+    }
+
   </style>
 </head>
 <body>
-  <div class="shell">
+  <div class="world-layout">
+    <aside class="world-rail europe-rail" aria-labelledby="europeClockTitle">
+      <div class="world-rail-head">
+        <div>
+          <p class="world-rail-kicker">EUROPE · LIVE CLOCKS</p>
+          <h2 id="europeClockTitle">欧洲主要城市</h2>
+          <p class="world-rail-sub">当地时间 · 自动适配夏令时</p>
+        </div>
+        <span class="world-rail-badge" aria-hidden="true">EU</span>
+      </div>
+      <div class="world-city-list" id="europeClockList" aria-live="off"></div>
+      <p class="world-rail-note"><strong>欧洲时间提示：</strong>英国和欧洲大陆多数地区会按当地规则切换夏令时；莫斯科和伊斯坦布尔等城市不采用相同的切换安排。</p>
+    </aside>
+    <div class="shell">
     <header class="topbar">
       <div class="brand">
         <div class="brand-mark">US</div>
@@ -305,6 +364,19 @@
       </div>
     </footer>
   </div>
+    <aside class="world-rail asia-rail" aria-labelledby="asiaClockTitle">
+      <div class="world-rail-head">
+        <div>
+          <p class="world-rail-kicker">ASIA · LIVE CLOCKS</p>
+          <h2 id="asiaClockTitle">亚洲主要城市</h2>
+          <p class="world-rail-sub">当地时间 · 多时区实时对照</p>
+        </div>
+        <span class="world-rail-badge" aria-hidden="true">AS</span>
+      </div>
+      <div class="world-city-list" id="asiaClockList" aria-live="off"></div>
+      <p class="world-rail-note"><strong>亚洲时间提示：</strong>各城市按各自 IANA 时区规则计算，印度、东南亚、东亚和海湾地区均显示当地 UTC 时差。</p>
+    </aside>
+  </div>
 
   <script>
     // 美国法定九大时区。代表城市的 IANA 时区规则会自动处理夏令时。
@@ -319,6 +391,69 @@
       { id:'samoa', name:'萨摩亚时区', en:'Samoa Time', city:'帕果帕果 · 美属萨摩亚', region:'海外属地', filter:'territory', tz:'Pacific/Pago_Pago', base:'ST', detail:'美属萨摩亚；全年不实行夏令时' },
       { id:'chamorro', name:'查莫罗时区', en:'Chamorro Time', city:'哈加特纳 · 关岛', region:'海外属地', filter:'territory', tz:'Pacific/Guam', base:'ChST', detail:'关岛 / 北马里亚纳群岛；全年不实行夏令时' }
     ];
+
+
+
+    // 欧洲与亚洲主要城市时钟。IANA 时区数据库负责当地夏令时和历史规则。
+    const worldCities = {
+      europe: [
+        { id:'london', name:'伦敦', en:'London · 英国', tz:'Europe/London' },
+        { id:'paris', name:'巴黎', en:'Paris · 法国', tz:'Europe/Paris' },
+        { id:'berlin', name:'柏林', en:'Berlin · 德国', tz:'Europe/Berlin' },
+        { id:'rome', name:'罗马', en:'Rome · 意大利', tz:'Europe/Rome' },
+        { id:'madrid', name:'马德里', en:'Madrid · 西班牙', tz:'Europe/Madrid' },
+        { id:'amsterdam', name:'阿姆斯特丹', en:'Amsterdam · 荷兰', tz:'Europe/Amsterdam' },
+        { id:'zurich', name:'苏黎世', en:'Zurich · 瑞士', tz:'Europe/Zurich' },
+        { id:'athens', name:'雅典', en:'Athens · 希腊', tz:'Europe/Athens' },
+        { id:'istanbul', name:'伊斯坦布尔', en:'Istanbul · 土耳其', tz:'Europe/Istanbul' },
+        { id:'moscow', name:'莫斯科', en:'Moscow · 俄罗斯', tz:'Europe/Moscow' }
+      ],
+      asia: [
+        { id:'beijing', name:'北京', en:'Beijing · 中国', tz:'Asia/Shanghai' },
+        { id:'tokyo', name:'东京', en:'Tokyo · 日本', tz:'Asia/Tokyo' },
+        { id:'seoul', name:'首尔', en:'Seoul · 韩国', tz:'Asia/Seoul' },
+        { id:'hongkong', name:'香港', en:'Hong Kong · 中国香港', tz:'Asia/Hong_Kong' },
+        { id:'singapore', name:'新加坡', en:'Singapore · 新加坡', tz:'Asia/Singapore' },
+        { id:'bangkok', name:'曼谷', en:'Bangkok · 泰国', tz:'Asia/Bangkok' },
+        { id:'jakarta', name:'雅加达', en:'Jakarta · 印度尼西亚', tz:'Asia/Jakarta' },
+        { id:'manila', name:'马尼拉', en:'Manila · 菲律宾', tz:'Asia/Manila' },
+        { id:'mumbai', name:'孟买', en:'Mumbai · 印度', tz:'Asia/Kolkata' },
+        { id:'dubai', name:'迪拜', en:'Dubai · 阿联酋', tz:'Asia/Dubai' }
+      ]
+    };
+
+    function initWorldClockPanels() {
+      for (const [region, cities] of Object.entries(worldCities)) {
+        const target = document.getElementById(`${region}ClockList`);
+        target.innerHTML = cities.map(city => `
+          <article class="world-clock-card" data-world-card="${city.id}">
+            <div class="world-clock-card-head">
+              <div class="world-city-label"><span class="world-city-name">${city.name}</span><span class="world-city-en">${city.en}</span></div>
+              <span class="world-city-zone" data-world-zone="${city.id}">UTC</span>
+            </div>
+            <div class="world-clock-time" data-world-time="${city.id}">--:--:--</div>
+            <div class="world-clock-card-foot"><span data-world-date="${city.id}">正在读取日期…</span><span data-world-offset="${city.id}">UTC±00</span></div>
+          </article>`).join('');
+      }
+    }
+
+    function updateWorldClockPanels(now) {
+      for (const cities of Object.values(worldCities)) {
+        for (const city of cities) {
+          const p = partsFor(city.tz, now);
+          const zoneName = fmt(city.tz, {timeZoneName:'short'}).formatToParts(now).find(part => part.type === 'timeZoneName')?.value || '';
+          const dateText = `${Number(p.month)}月${Number(p.day)}日 ${p.weekday}`;
+          const timeNode = document.querySelector(`[data-world-time="${city.id}"]`);
+          const dateNode = document.querySelector(`[data-world-date="${city.id}"]`);
+          const zoneNode = document.querySelector(`[data-world-zone="${city.id}"]`);
+          const offsetNode = document.querySelector(`[data-world-offset="${city.id}"]`);
+          if (timeNode) timeNode.textContent = `${p.hour}:${p.minute}:${p.second}`;
+          if (dateNode) dateNode.textContent = dateText;
+          if (zoneNode) zoneNode.textContent = zoneName;
+          if (offsetNode) offsetNode.textContent = offsetText(offsetFor(city.tz, now));
+        }
+      }
+    }
 
     const stateMeta = {"AL":{"name":"阿拉巴马州","city":"伯明翰","tz":"America/Chicago","zone":"central","secondary":[]},"AK":{"name":"阿拉斯加州","city":"安克雷奇","tz":"America/Anchorage","zone":"alaska","secondary":[{"label":"阿留申群岛西部","city":"阿达克","tz":"America/Adak"}]},"AZ":{"name":"亚利桑那州","city":"凤凰城","tz":"America/Phoenix","zone":"mountain","secondary":[]},"AR":{"name":"阿肯色州","city":"小石城","tz":"America/Chicago","zone":"central","secondary":[]},"CA":{"name":"加利福尼亚州","city":"洛杉矶","tz":"America/Los_Angeles","zone":"pacific","secondary":[]},"CO":{"name":"科罗拉多州","city":"丹佛","tz":"America/Denver","zone":"mountain","secondary":[]},"CT":{"name":"康涅狄格州","city":"哈特福德","tz":"America/New_York","zone":"eastern","secondary":[]},"DE":{"name":"特拉华州","city":"威尔明顿","tz":"America/New_York","zone":"eastern","secondary":[]},"FL":{"name":"佛罗里达州","city":"迈阿密","tz":"America/New_York","zone":"eastern","secondary":[{"label":"西北部狭长地带","city":"彭萨科拉","tz":"America/Chicago"}]},"GA":{"name":"佐治亚州","city":"亚特兰大","tz":"America/New_York","zone":"eastern","secondary":[]},"HI":{"name":"夏威夷州","city":"檀香山","tz":"Pacific/Honolulu","zone":"hawaii","secondary":[]},"ID":{"name":"爱达荷州","city":"博伊西","tz":"America/Boise","zone":"mountain","secondary":[{"label":"北部地区","city":"科达伦","tz":"America/Los_Angeles"}]},"IL":{"name":"伊利诺伊州","city":"芝加哥","tz":"America/Chicago","zone":"central","secondary":[]},"IN":{"name":"印第安纳州","city":"印第安纳波利斯","tz":"America/Indiana/Indianapolis","zone":"eastern","secondary":[{"label":"西北部及西南部部分地区","city":"加里","tz":"America/Chicago"}]},"IA":{"name":"艾奥瓦州","city":"得梅因","tz":"America/Chicago","zone":"central","secondary":[]},"KS":{"name":"堪萨斯州","city":"威奇托","tz":"America/Chicago","zone":"central","secondary":[{"label":"西部部分地区","city":"古德兰","tz":"America/Denver"}]},"KY":{"name":"肯塔基州","city":"路易斯维尔","tz":"America/Kentucky/Louisville","zone":"eastern","secondary":[{"label":"西部部分地区","city":"鲍灵格林","tz":"America/Chicago"}]},"LA":{"name":"路易斯安那州","city":"新奥尔良","tz":"America/Chicago","zone":"central","secondary":[]},"ME":{"name":"缅因州","city":"波特兰","tz":"America/New_York","zone":"eastern","secondary":[]},"MD":{"name":"马里兰州","city":"巴尔的摩","tz":"America/New_York","zone":"eastern","secondary":[]},"MA":{"name":"马萨诸塞州","city":"波士顿","tz":"America/New_York","zone":"eastern","secondary":[]},"MI":{"name":"密歇根州","city":"底特律","tz":"America/Detroit","zone":"eastern","secondary":[{"label":"上半岛西部部分地区","city":"梅诺米尼","tz":"America/Menominee"}]},"MN":{"name":"明尼苏达州","city":"明尼阿波利斯","tz":"America/Chicago","zone":"central","secondary":[]},"MS":{"name":"密西西比州","city":"杰克逊","tz":"America/Chicago","zone":"central","secondary":[]},"MO":{"name":"密苏里州","city":"圣路易斯","tz":"America/Chicago","zone":"central","secondary":[]},"MT":{"name":"蒙大拿州","city":"比灵斯","tz":"America/Denver","zone":"mountain","secondary":[]},"NE":{"name":"内布拉斯加州","city":"奥马哈","tz":"America/Chicago","zone":"central","secondary":[{"label":"西部部分地区","city":"斯科茨布拉夫","tz":"America/Denver"}]},"NV":{"name":"内华达州","city":"拉斯维加斯","tz":"America/Los_Angeles","zone":"pacific","secondary":[{"label":"西北角以外少数地区","city":"西温多弗","tz":"America/Denver"}]},"NH":{"name":"新罕布什尔州","city":"曼彻斯特","tz":"America/New_York","zone":"eastern","secondary":[]},"NJ":{"name":"新泽西州","city":"纽瓦克","tz":"America/New_York","zone":"eastern","secondary":[]},"NM":{"name":"新墨西哥州","city":"阿尔伯克基","tz":"America/Denver","zone":"mountain","secondary":[]},"NY":{"name":"纽约州","city":"纽约市","tz":"America/New_York","zone":"eastern","secondary":[]},"NC":{"name":"北卡罗来纳州","city":"夏洛特","tz":"America/New_York","zone":"eastern","secondary":[]},"ND":{"name":"北达科他州","city":"法戈","tz":"America/Chicago","zone":"central","secondary":[{"label":"西部部分地区","city":"迪金森","tz":"America/Denver"}]},"OH":{"name":"俄亥俄州","city":"哥伦布","tz":"America/New_York","zone":"eastern","secondary":[]},"OK":{"name":"俄克拉何马州","city":"俄克拉何马城","tz":"America/Chicago","zone":"central","secondary":[]},"OR":{"name":"俄勒冈州","city":"波特兰","tz":"America/Los_Angeles","zone":"pacific","secondary":[{"label":"东部大部分地区","city":"安大略","tz":"America/Boise"}]},"PA":{"name":"宾夕法尼亚州","city":"费城","tz":"America/New_York","zone":"eastern","secondary":[]},"RI":{"name":"罗得岛州","city":"普罗维登斯","tz":"America/New_York","zone":"eastern","secondary":[]},"SC":{"name":"南卡罗来纳州","city":"查尔斯顿","tz":"America/New_York","zone":"eastern","secondary":[]},"SD":{"name":"南达科他州","city":"苏福尔斯","tz":"America/Chicago","zone":"central","secondary":[{"label":"西部部分地区","city":"拉皮德城","tz":"America/Denver"}]},"TN":{"name":"田纳西州","city":"纳什维尔","tz":"America/Chicago","zone":"central","secondary":[{"label":"东部地区","city":"诺克斯维尔","tz":"America/New_York"}]},"TX":{"name":"得克萨斯州","city":"达拉斯","tz":"America/Chicago","zone":"central","secondary":[{"label":"西部埃尔帕索地区","city":"埃尔帕索","tz":"America/Denver"}]},"UT":{"name":"犹他州","city":"盐湖城","tz":"America/Denver","zone":"mountain","secondary":[]},"VT":{"name":"佛蒙特州","city":"伯灵顿","tz":"America/New_York","zone":"eastern","secondary":[]},"VA":{"name":"弗吉尼亚州","city":"弗吉尼亚海滩","tz":"America/New_York","zone":"eastern","secondary":[]},"WA":{"name":"华盛顿州","city":"西雅图","tz":"America/Los_Angeles","zone":"pacific","secondary":[]},"WV":{"name":"西弗吉尼亚州","city":"查尔斯顿","tz":"America/New_York","zone":"eastern","secondary":[]},"WI":{"name":"威斯康星州","city":"密尔沃基","tz":"America/Chicago","zone":"central","secondary":[]},"WY":{"name":"怀俄明州","city":"夏延","tz":"America/Denver","zone":"mountain","secondary":[]},"DC":{"name":"哥伦比亚特区","city":"华盛顿特区","tz":"America/New_York","zone":"eastern","secondary":[]}};
     const stateZoneLabels = {"pacific": "太平洋", "mountain": "山地", "central": "中部", "eastern": "东部", "alaska": "阿拉斯加", "hawaii": "夏威夷-阿留申"};
@@ -505,6 +640,7 @@
           <div class="timeline-time">${z.time}</div>
         </div>`).join('');
       document.getElementById('lastUpdated').textContent = `最后更新：${bj.hour}:${bj.minute}:${bj.second}（北京时间）`;
+      updateWorldClockPanels(now);
       if (typeof refreshStateDetail === 'function' && document.getElementById('stateClock')) refreshStateDetail();
     }
 
@@ -529,6 +665,7 @@
     document.getElementById('searchInput').addEventListener('input', applyFilters);
 
     // 初次渲染后每秒更新时钟；分钟、日期和夏令时切换也会自动反映。
+    initWorldClockPanels();
     initStateMap();
     applyFilters();
     update();
